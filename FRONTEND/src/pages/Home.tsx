@@ -1,109 +1,168 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronDown, TrendingUp, Users, Brain } from 'lucide-react';
+import { ArrowRightIcon, ChartBarIcon, UserGroupIcon, CpuChipIcon } from '@heroicons/react/24/outline';
 
-const Home = () => {
-  const scrollToFeatures = () => {
-    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+export const Home: React.FC = () => {
+  const scrollToPredict = () => {
+    document.getElementById('predict-section')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const features = [
+    {
+      icon: <CpuChipIcon className="h-8 w-8" />,
+      title: 'AI-Powered Predictions',
+      description: 'Advanced machine learning algorithms analyze employee data to predict retention likelihood.'
+    },
+    {
+      icon: <ChartBarIcon className="h-8 w-8" />,
+      title: 'Real-time Analytics',
+      description: 'Get instant insights into factors affecting employee retention in your organization.'
+    },
+    {
+      icon: <UserGroupIcon className="h-8 w-8" />,
+      title: 'Employee-Centric',
+      description: 'Understand what drives employee satisfaction and retention in your workplace.'
+    }
+  ];
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-teal-600 min-h-screen flex items-center justify-center text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-          <h1 className="text-6xl sm:text-7xl md:text-8xl font-bold mb-6 tracking-tight">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-teal-500 opacity-90"></div>
+        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg')] bg-cover bg-center opacity-20"></div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10 text-center px-4 sm:px-6 lg:px-8"
+        >
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-6xl sm:text-7xl lg:text-8xl font-black text-white mb-6 tracking-tight"
+          >
             RETAINER
-          </h1>
-          <p className="text-xl sm:text-2xl md:text-3xl mb-12 text-blue-100 font-light">
+          </motion.h1>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl sm:text-2xl text-white/90 mb-12 font-light"
+          >
             Employee Retention Prediction Made Simple
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button
-              onClick={scrollToFeatures}
-              className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transform hover:scale-105 transition-all duration-300 shadow-xl"
-            >
-              Get Started
-            </button>
+          </motion.p>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center"
+          >
             <Link
               to="/predict"
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transform hover:scale-105 transition-all duration-300"
+              className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-full hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
             >
-              Try Prediction
+              Get Started
+              <ArrowRightIcon className="ml-2 h-5 w-5" />
             </Link>
-          </div>
-        </div>
+            
+            <button
+              onClick={scrollToPredict}
+              className="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-blue-600 transition-all duration-300 transform hover:scale-105"
+            >
+              Learn More
+            </button>
+          </motion.div>
+        </motion.div>
         
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ChevronDown size={32} className="text-white/70" />
-        </div>
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="w-6 h-10 border-2 border-white rounded-full flex justify-center"
+          >
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="w-1 h-3 bg-white rounded-full mt-2"
+            />
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gray-50">
+      <section id="predict-section" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Predict Employee Retention with AI
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+              Why Choose{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                RETAINER
+              </span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Leverage machine learning to understand and predict employee attrition patterns,
-              helping you make data-driven decisions for better retention strategies.
+              Transform your HR strategy with data-driven insights and predictive analytics
             </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                whileHover={{ y: -10 }}
+                className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group"
+              >
+                <div className="text-blue-600 mb-4 group-hover:text-purple-600 transition-colors duration-300">
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="bg-blue-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                <Brain className="text-blue-600" size={32} />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">AI-Powered Predictions</h3>
-              <p className="text-gray-600">
-                Advanced machine learning algorithms analyze multiple factors to predict employee retention likelihood.
-              </p>
-            </div>
-
-            <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="bg-teal-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                <TrendingUp className="text-teal-600" size={32} />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Data-Driven Insights</h3>
-              <p className="text-gray-600">
-                Get actionable insights based on comprehensive employee data analysis and trends.
-              </p>
-            </div>
-
-            <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="bg-orange-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                <Users className="text-orange-600" size={32} />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Improve Retention</h3>
-              <p className="text-gray-600">
-                Make informed decisions to improve employee satisfaction and reduce turnover costs.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-teal-600 text-white">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-6">Ready to Get Started?</h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Start predicting employee retention today and make better HR decisions.
-          </p>
-          <Link
-            to="/predict"
-            className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transform hover:scale-105 transition-all duration-300 shadow-xl inline-block"
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="text-center mt-16"
           >
-            Start Predicting Now
-          </Link>
+            <Link
+              to="/predict"
+              className="inline-flex items-center px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              Start Predicting Now
+              <ArrowRightIcon className="ml-2 h-5 w-5" />
+            </Link>
+          </motion.div>
         </div>
       </section>
     </div>
   );
 };
-
-export default Home;

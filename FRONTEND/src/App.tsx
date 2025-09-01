@@ -1,16 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navigation from './components/Navigation';
-import Home from './pages/Home';
-import Predict from './pages/Predict';
-import About from './pages/About';
-
+import { Navbar } from './components/Navbar';
+import { Home } from './pages/Home';
+import { Predict } from './pages/Predict';
+import { About } from './pages/About';
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50">
-        <Navigation />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/predict" element={<Predict />} />
