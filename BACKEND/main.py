@@ -1,10 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from preprocess import predict_employee_attrition
-
 app = FastAPI(title="Employee Attrition Prediction API")
-
-# Input Schema (must match your training features)
 class EmployeeData(BaseModel):
     Age: int
     BusinessTravel: str
@@ -39,11 +36,9 @@ class EmployeeData(BaseModel):
     YearsInCurrentRole: int
     YearsSinceLastPromotion: int
     YearsWithCurrManager: int
-
 @app.get("/")
 def root():
     return {"message": "Employee Attrition Prediction API is running 🚀"}
-
 @app.post("/predict")
 def predict(data: EmployeeData):
     result = predict_employee_attrition(data.dict())
