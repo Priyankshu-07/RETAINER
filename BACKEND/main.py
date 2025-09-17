@@ -1,34 +1,50 @@
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
-import pickle
-import sys
-import os
+from fastapi import FastAPI
+from pydantic import BaseModel
+from preprocess import predict_employee_attrition
 
-sys.path.append(os.path.join(os.path.dirname(__file__)))
-from preprocess import preprocess_input
+app = FastAPI(title="Employee Attrition Prediction API")
 
-app = FastAPI()
+# Input Schema (must match your training features)
+class EmployeeData(BaseModel):
+    Age: int
+    BusinessTravel: str
+    DailyRate: int
+    Department: str
+    DistanceFromHome: int
+    Education: int
+    EducationField: str
+    EmployeeCount: int
+    EnvironmentSatisfaction: int
+    Gender: str
+    HourlyRate: int
+    JobInvolvement: int
+    JobLevel: int
+    JobRole: str
+    JobSatisfaction: int
+    MaritalStatus: str
+    MonthlyIncome: int
+    MonthlyRate: int
+    NumCompaniesWorked: int
+    Over18: str
+    OverTime: str
+    PercentSalaryHike: int
+    PerformanceRating: int
+    RelationshipSatisfaction: int
+    StandardHours: int
+    StockOptionLevel: int
+    TotalWorkingYears: int
+    TrainingTimesLastYear: int
+    WorkLifeBalance: int
+    YearsAtCompany: int
+    YearsInCurrentRole: int
+    YearsSinceLastPromotion: int
+    YearsWithCurrManager: int
 
-# Enable CORS to allow frontend requests
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Refine to specific domains in production
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Load model and preprocessor at startup
-model = pickle.load(open(os.path.join('models', 'model.pkl'), 'rb'))
-preprocessor = pickle.load(open(os.path.join('models', 'preprocessor.pkl'), 'rb'))
+@app.get("/")
+def root():
+    return {"message": "Employee Attrition Prediction API is running 🚀"}
 
 @app.post("/predict")
-async def predict(request: Request):
-    data = await request.json()
-    processed = preprocess_input(data, preprocessor)
-    prediction = model.predict(processed)
-    probability = model.predict_proba(processed)[1] if hasattr(model, 'predict_proba') else None
-    return {
-        "attrition": int(prediction),  # 1 if likely to leave, else 0
-        "probability": probability  # Probability of attrition (optional)
-    }
+def predict(data: EmployeeData):
+    result = predict_employee_attrition(data.dict())
+    return result
