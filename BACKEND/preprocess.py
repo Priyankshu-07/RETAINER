@@ -4,6 +4,8 @@ preprocessor = joblib.load("models/preprocessor.pkl")
 model = joblib.load("models/model.pkl")
 def predict_employee_attrition(data: dict):
     df = pd.DataFrame([data])
+    expected_features = preprocessor.feature_names_in_
+    df = df[expected_features]
     X = preprocessor.transform(df)
     prediction = model.predict(X)[0]
     probability = model.predict_proba(X)[0]
